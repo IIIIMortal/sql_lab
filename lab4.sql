@@ -24,12 +24,23 @@ create table works(
     primary key(employee_name),
     -- 这里我只定义了一个外键，而且是no action，等同于 restrict, 当在外键的来源表中删除数据时，查找该数据是否有对应外键，如果有则不允许删除
     foreign key (employee_name) references employee(employee_name)
+        on delete cascade
+        on update cascade,
+    foreign key (company_name) references company(company_name)
+        on delete set null
+        on update cascade
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table manages(
     employee_name varchar(20),
     manager_name varchar(20),
-    primary key(employee_name)
+    primary key(employee_name),
+    foreign key ( employee_name ) references employee(employee_name)
+        on delete cascade
+        on update cascade,
+    foreign key(manager_name) references employee(employee_name)
+        on delete set null
+        on update cascade
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 往四个表中插入一定的数据
